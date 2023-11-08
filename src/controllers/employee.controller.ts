@@ -6,8 +6,8 @@ class EmployeeController {
   async createEmployee(req: Request, res: Response, next: NextFunction): Promise<void> {
     const { firstName,lastName, age, role } = req.body;
 
-    const employee = new Employee({ lastName, age, role });
-    const save:any = await employee.save()
+    const employee = new Employee({firstName, lastName, age, role });
+    await employee.save()
     .then((save)=>{
       res.status(200).send(save);
     })
