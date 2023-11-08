@@ -1,19 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import Employee from '../schemas/employee-model';
+import { Error } from 'mongoose';
 
 class EmployeeController {
   async createEmployee(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const { name, age, role } = req.body;
-    console.log(name)
-    const employee = new Employee({ name, age, role });
-   await employee.save()
-      .then(() => {
-        res.send(`Employee created successfully ${name}`);
-      })
-      .catch((err: any) => {
-        console.error('Error creating employee:', err);
-        res.status(500).send('Internal Server Error');
-      });
+    const { firstName,lastName, age, role } = req.body;
+
+    const employee = new Employee({ lastName, age, role });
+    const save:any = await employee.save()
+    .then((save)=>{
+      res.status(200).send(save);
+    })
+    .catch((err:any)=>{
+      next({err});
+    })
+    
   }
 
   async getAllEmployees(req: Request, res: Response, next: NextFunction): Promise<void> {
