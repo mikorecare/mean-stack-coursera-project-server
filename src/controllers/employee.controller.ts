@@ -1,0 +1,81 @@
+import { Request, Response, NextFunction } from 'express';
+import Employee from '../schemas/employee-model';
+
+class EmployeeController {
+  async createEmployee(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const { name, age, role } = req.body;
+    console.log(name)
+    const employee = new Employee({ name, age, role });
+   await employee.save()
+      .then(() => {
+        res.send(`Employee created successfully ${name}`);
+      })
+      .catch((err: any) => {
+        console.error('Error creating employee:', err);
+        res.status(500).send('Internal Server Error');
+      });
+  }
+
+  async getAllEmployees(req: Request, res: Response, next: NextFunction): Promise<void> {
+    await Employee.find({})
+      .then((employees: any) => {
+        res.send(employees);
+      })
+      .catch((err: any) => {
+        console.error('Error fetching employees:', err);
+        res.status(500).send('Internal Server Error');
+      });
+  }
+
+  async getEmployeeById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const id = req.params.id;
+    await Employee.findById(id)
+      .then((employee: any) => {
+        if (!employee) {
+          res.status(404).send('Employee not found');
+        } else {
+          res.send(employee);
+        }
+      })
+      .catch((err: any) => {
+        console.error('Error fetching employee by ID:', err);
+        res.status(500).send('Internal Server Error');
+      });
+  }
+
+  async updateEmployee(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const id = req.params.id;
+    const { name, age, role } = req.body;
+    await Employee.findByIdAndUpdate(id, { name, age, role }, { new: true })
+      .then((employee: any) => {
+        if (!employee) {
+          res.status(404).send('Employee not found');
+        } else {
+          res.send(employee);
+        }
+      })
+      .catch((err: any) => {
+        console.error('Error updating employee:', err);
+        res.status(500).send('Internal Server Error');
+      });
+  }
+
+  async deleteEmployee(req: Request, res: Response, next: NextFunction): Promise<void> {
+    const id = req.params.id;
+    console.log(id)
+    await Employee.findOneAndDelete({_id:id})
+      .then((employee: any) => {
+        if (!employee) {
+          res.status(404).send('Employee not found');
+        } else {
+          res.send(`Employee deleted successfully ${employee.name}`);
+        }
+      })
+      .catch((err: any) => {
+        console.error('Error deleting employee:', err);
+        res.status(500).send('Internal Server Error');
+      });
+  }
+}
+
+export default EmployeeController;
