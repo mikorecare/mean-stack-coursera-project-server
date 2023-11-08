@@ -9,7 +9,8 @@ interface Employee extends Document {
 const roles = ["Entry-Level", "Junior-Developer", "Senior-Developer"];
 
 const EmployeeSchema: Schema = new Schema({
-  name: { type: String, required: true },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   age: { type: Number, required: true },
   role: { type: String, required: true, enum:roles },
 });
