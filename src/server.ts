@@ -59,7 +59,7 @@ class Server{
       }
 
     async start():Promise<Express>{
-        const url:string = process.env.MONGO_URL || ""
+        const url:string = process.env.MONGO_CONNECTION_URL || ""
         this.configureRoutes();
         return this.connectDatabase(url).then((data: any) => {
             console.log(data);
