@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import Employee from '../schemas/employee-model';
-import { Error } from 'mongoose';
+import mongoose from 'mongoose';
 
 class EmployeeController {
   async createEmployee(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -29,7 +29,8 @@ class EmployeeController {
   }
 
   async getEmployeeById(req: Request, res: Response, next: NextFunction): Promise<void> {
-    const id = req.params.id;
+    console.log(req.params.id)
+    const id = req.params.id
     await Employee.findById(id)
       .then((employee: any) => {
         if (!employee) {
@@ -46,8 +47,8 @@ class EmployeeController {
 
   async updateEmployee(req: Request, res: Response, next: NextFunction): Promise<void> {
     const id = req.params.id;
-    const { name, age, role } = req.body;
-    await Employee.findByIdAndUpdate(id, { name, age, role }, { new: true })
+    const { firstName,lastName, age, role } = req.body;
+    await Employee.findByIdAndUpdate(id, { firstName,lastName, age, role }, { new: true })
       .then((employee: any) => {
         if (!employee) {
           res.status(404).send('Employee not found');
@@ -67,9 +68,9 @@ class EmployeeController {
     await Employee.findOneAndDelete({_id:id})
       .then((employee: any) => {
         if (!employee) {
-          res.status(404).send('Employee not found');
+          res.status(404).send([]);
         } else {
-          res.send(`Employee deleted successfully ${employee.name}`);
+          res.status(200).send(employee);
         }
       })
       .catch((err: any) => {
