@@ -25,7 +25,7 @@ class Server{
     }
 
     configureRoutes():void{
-        this.app.use('/api/v1',[employeeRouter])
+        // this.app.use('/api/v1',[employeeRouter])
         this.app.use('/api/v1',[articleRouter])
     }
 
