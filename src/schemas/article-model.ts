@@ -2,7 +2,6 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
 interface IArticle extends Document{
-    id: string;
     url: string;
     author: string;
     publishedAt: Date;
@@ -15,7 +14,6 @@ interface IArticle extends Document{
   }
   
   const articleSchema = new mongoose.Schema({
-    id: { type: String, required: true },
     url: { type: String, required: true },
     author: { type: String, required: true },
     publishedAt: { type: Date, required: true },

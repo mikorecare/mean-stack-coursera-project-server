@@ -4,6 +4,6 @@ import ArticleController from "../controllers/article.controller";
 const articleRouter = Router();
 const articleController = new ArticleController();
 
-articleRouter.get('/employees',articleController.getAllArticles);
-
+articleRouter.get('/articles',articleController.getAllArticles);
+articleRouter.post('/articles',articleController.createArticle)
 export default articleRouter;
