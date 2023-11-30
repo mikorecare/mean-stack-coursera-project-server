@@ -5,6 +5,7 @@ import morgan from 'morgan'
 import connectTimeout from 'connect-timeout'
 import { config } from 'dotenv';
 import employeeRouter from './routes/employee.routes';
+import articleRouter from './routes/article.routes';
 import { connect, connection, ConnectOptions } from 'mongoose';
 config();
 
@@ -25,6 +26,7 @@ class Server{
 
     configureRoutes():void{
         this.app.use('/api/v1',[employeeRouter])
+        this.app.use('/api/v1',[articleRouter])
     }
 
     databaseStatus(): void {
